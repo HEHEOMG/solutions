@@ -1,0 +1,268 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- saved from url=(0040)https://tool.oschina.net/codeformat/json -->
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+<title>在线代码格式化</title>
+ 
+<meta http-equiv="Content-Language" content="zh-CN"> 
+<meta name="keywords" content="OSCHINA.NET 在线工具,ostools,jsbin,加密/解密，Markdown,less,java api,php api,node.js api,QR Code">
+<meta name="description" content="OSCHINA.NET在线工具,ostools为开发设计人员提供在线工具，提供jsbin在线 CSS、JS 调试，在线 Java API文档,在线 PHP API文档,在线 Node.js API文档,Less CSS编译器，MarkDown编译器等其他在线工具">
+<link rel="shortcut icon" href="https://tool.oschina.net/img/favicon.ico" type="image/x-icon"> 
+<link rel="stylesheet" href="./在线代码格式化_files/basic.css" type="text/css"> 
+<script charset="utf-8" src="./在线代码格式化_files/UrlChangeTracker.js"></script><script src="./在线代码格式化_files/hm.js"></script><script src="./在线代码格式化_files/push.js"></script><script type="text/javascript" src="./在线代码格式化_files/jquery-1.7.2.js"></script>
+<script type="text/javascript" src="./在线代码格式化_files/jquery.cookies.2.2.0.min.js"></script>
+<link rel="stylesheet" href="./在线代码格式化_files/bootstrap.min.css">
+<script src="./在线代码格式化_files/bootstrap.min.js"></script>
+
+</head>
+<body>
+	<link rel="stylesheet" type="text/css" href="./在线代码格式化_files/icon.min.css">
+<div class="ui secondary inverted fixed menu" id="headerNavMenu">
+	<a class="item logo" href="https://tool.oschina.net/" title="OSCHINA.NET在线工具"><img src="./在线代码格式化_files/logo_new.svg" alt="OSCHINA.NET在线工具"></a>
+	
+	<form action="https://www.oschina.net/search" class="item search-item">
+		<div class="ui icon input">
+			<input type="hidden" name="scope" value="all">
+			<input placeholder="大家都在搜...." id="keyword" name="q" size="24" value="" type="text">
+			<i id="searchIcon" class="search link icon"></i>
+		</div>
+		<div class="results"></div>
+	</form>
+	<div class="item download-item">
+		<a class="ui primary button" id="btnDownloadApp" href="https://www.oschina.net/app" target="_blank">下载APP
+			<div class="ui popup top left transition" id="btnDownloadAppContent">
+				<h3 class="header">OSCHINA App —— <br>关注技术领域的头条文章</h3>
+				<p>聚合全网技术文章，根据你的阅读喜好进行个性推荐</p>
+				<img width="200" src="./在线代码格式化_files/osc_app_download_qrcode.png" alt="下载APP">
+			</div>
+		</a>
+	</div>
+
+	<div class="ui secondary text menu" id="menuList">
+		<a href="https://www.oschina.net/project" class="item project">开源软件</a>
+		<a href="https://www.oschina.net/question" class="item question">问答</a>
+		<a href="https://www.oschina.net/tweets" class="item tweet">动弹</a>
+		<a href="https://www.oschina.net/blog" class="item blog">博客</a>
+		<a href="https://www.oschina.net/translate" class="item translate">翻译</a>
+		<a href="https://www.oschina.net/news" class="item news">资讯</a>
+		<a href="https://gitee.com/?utm_source=oschina&amp;utm_medium=link-index&amp;utm_campaign=home" class="item gitee" target="_blank">Gitee<span class="floating ui red label giteetip">代码托管</span></a>
+		<a href="https://zb.oschina.net/projects/list.html" class="item" target="_blank">众包</a>
+		<a href="https://www.oschina.net/event" class="item event">活动</a>
+		<a href="https://www.oschina.net/groups" class="item column">专区</a>
+	</div>
+	<div class="ui dropdown item" id="moreMenu">
+		更多 <i class="dropdown icon"></i>
+		<div class="menu" id="moreMenuDropDown">
+			<a href="https://www.oschina.net/event/ych" class="item meetup"><i class="world icon"></i>源创会</a>
+			<a href="https://job.oschina.net/" class="item" target="_blank"><i class="address card outline icon"></i>求职/招聘</a>
+			<a href="https://www.oschina.net/question/topic/masteronline" class="item"><i class="spy icon"></i>高手问答</a>
+			<a href="https://www.oschina.net/question/topic/osc-interview" class="item"><i class="coffee icon"></i>开源访谈</a>
+			<a href="https://www.oschina.net/editorial-story" class="item"><i class="calendar outline icon"></i>周刊</a>
+			<a href="https://www.oschina.net/company" class="item"><i class="building outline icon"></i>公司开源导航页</a>
+		</div>
+	</div>
+				</div>
+
+<script>
+	$(document).on('click', '#moreMenu', function () {
+		let display = document.getElementById("moreMenuDropDown").style.display
+		console.log('moreMenu',display);
+		if (display==='block'){
+			document.getElementById("moreMenuDropDown").style.display = "none";
+			document.getElementById("moreMenu").style.color = "rgba(255,255,255,.7)";
+			document.getElementById("moreMenu").style.fontWeight = "400";
+		}else {
+			document.getElementById("moreMenuDropDown").style.display = "block";
+			document.getElementById("moreMenu").style.color = "#fff";
+			document.getElementById("moreMenu").style.fontWeight = "700";
+		}
+	});
+	$(document).on('click', '#searchIcon', function () {
+		var searchForm = $(this).parents('.search-item:eq(0)');
+		var q = searchForm.find('input[name=q]').val().trim();
+		// 无关键词时不响应
+		if (q.length > 0) {
+			searchForm.submit();
+		}
+	});
+</script>	<script type="text/javascript" src="./在线代码格式化_files/tag_osc.js"></script>
+	<div class="wrapper ad-wrap" style="margin-top: 15px">
+		
+	
+	</div>
+	<style>
+	.leftBar .title,.rightBar .title,.topBar .title{margin-bottom:10px;}
+	.bottomBar .title{margin:10px 0;}
+</style>
+<link id="css" rel="stylesheet" type="text/css" href="./在线代码格式化_files/shCoreDefault.css">
+<link id="css" rel="stylesheet" type="text/css" href="./在线代码格式化_files/style.css">
+<script type="text/javascript" src="./在线代码格式化_files/shCore.js"></script>
+<script type="text/javascript" src="./在线代码格式化_files/jquery.form-2.82.js"></script>
+<script type="text/javascript" src="./在线代码格式化_files/jquery.textarearesizer.compressed.js"></script>
+<script>
+$(function(){
+	$('textarea.resizable:not(.processed)').TextAreaResizer();
+	$('div.resizable:not(.processed)').TextAreaResizer();
+});
+</script>
+<div id="mainContent" class="tool_content wrapper">
+<div class="toolName">在线代码格式化<a data-toggle="modal" href="https://tool.oschina.net/codeformat/json#advice" style="float:right;text-decoration:none;"><span class="badge badge-important"><i class="icon-envelope icon-white"></i> Feedback</span></a></div>
+    <div class="toolUsing clearfix">
+    	<div class="toolsTab  clearfix">
+    	    <ul class="nav nav-tabs">
+                <li><a href="https://tool.oschina.net/codeformat/html">HTML格式化</a></li>
+                <li><a href="https://tool.oschina.net/codeformat/xml">XML格式化</a></li>
+                <li><a href="https://tool.oschina.net/codeformat/css">CSS格式化</a></li>
+				<li class="active"><a href="https://tool.oschina.net/codeformat/json">JSON格式化</a></li>
+				<li><a href="https://tool.oschina.net/codeformat/js">JavaScript格式化</a></li>
+                <li><a href="https://tool.oschina.net/codeformat/java">Java格式化</a></li>
+                <li><a href="https://tool.oschina.net/codeformat/sql">SQL格式化</a></li>
+    	    </ul>
+    	    <div class="clear"></div>
+    	</div>
+		<form id="codeformat_form" action="https://tool.oschina.net/action/format/json" method="POST">
+			<link href="./在线代码格式化_files/s.css" type="text/css" rel="stylesheet">
+<script type="text/javascript" src="./在线代码格式化_files/c.js"></script>
+<script type="text/javascript">
+	function format_(){
+		var json = $("#jsondata").val();
+		$("#fjson").html(fmt);
+	}
+</script>
+<div class="alert alert-info">
+    JSON格式化采用<a href="http://www.oschina.net/" target="_blank">OSChina</a>会员<code><a href="http://my.oschina.net/dengying" target="_blank">沙王重名了</a></code>提供的<code><a href="http://www.oschina.net/code/snippet_119610_11825" target="_blank">代码</a></code>实现
+</div>
+<div class="topBar">
+    <div class="title">待格式化JSON：</div>
+	<div class="resizable-textarea"><span><textarea name="json" id="RawJson" style="resize:none;" class="resizable processed"></textarea><div class="grippie" style="margin-right: -8px;"></div></span></div>
+</div>
+<div class="operateTB form-inline">
+	<label for="TabSize">缩进量：</label>
+	<select id="TabSize" onchange="TabSizeChanged()" class="span1">
+      <option value="1">1</option>
+      <option value="2" selected="true">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+      <option value="6">6</option>
+    </select>
+	<label for="QuoteKeys" class="checkbox">
+		<input type="checkbox" id="QuoteKeys" onclick="QuoteKeysClicked()" checked="true">引号
+  	</label>
+	<span id="CollapsibleViewHolder">
+      <label for="CollapsibleView" class="checkbox">
+        <input type="checkbox" id="CollapsibleView" onclick="CollapsibleViewClicked()" checked="true">显示控制
+      </label>
+  </span>
+  <span id="CollapsibleViewDetail" style="visibility: visible;margin-right:10px; ">
+    <a href="javascript:void(0);" onclick="ExpandAllClicked()">展开</a>
+    <a href="javascript:void(0);" onclick="CollapseAllClicked()">叠起</a>
+    <a href="javascript:void(0);" onclick="CollapseLevel(3)">2级</a>
+    <a href="javascript:void(0);" onclick="CollapseLevel(4)">3级</a>
+    <a href="javascript:void(0);" onclick="CollapseLevel(5)">4级</a>
+    <a href="javascript:void(0);" onclick="CollapseLevel(6)">5级</a>
+    <a href="javascript:void(0);" onclick="CollapseLevel(7)">6级</a>
+    <a href="javascript:void(0);" onclick="CollapseLevel(8)">7级</a>
+    <a href="javascript:void(0);" onclick="CollapseLevel(9)">8级</a>
+  </span>
+  <input class="btn btn-small btn-primary" data-loading-text="正在格式化json..." id="format" type="button" onclick="Process()" value="格式化">
+</div>
+<div class="bottomBar">
+    <div class="title">格式化JSON：</div>
+	<div class="resizable-textarea"><span><div id="Canvas" class="Canvas well resizable processed" style="height:200px;overflow:auto;margin-bottom:0px;"></div><div class="grippie" style="margin-right: 0px;"></div></span></div>
+</div>        </form>
+    </div>
+</div>
+	<!--     尾部footer开始    -->
+<div id="footer">
+	<p class="wrapper">
+		在线工具 由 <a href="http://www.oschina.net/" target="_blank">OSCHINA.NET</a> 所有 | <a href="http://weibo.com/oschina2010" target="_blank">@新浪微博</a> |<a href="http://www.aliyun.com/" target="_blank">阿里云</a>提供服务器和带宽 |<a data-toggle="modal" href="https://tool.oschina.net/codeformat/json#advice">意见反馈</a> | <a href="http://www.beian.miit.gov.cn/" target="_blank">粤ICP备12009483号-6</a> | <span style="color:#AAA;">深圳市奥思网络科技有限公司版权所有</span>  	</p>
+</div>
+<!--     尾部footer结束    -->	<div class="modal hide fade" id="advice" style="display:none;">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h3>在线代码格式化</h3>
+      </div>
+      <div class="modal-body">
+		<p>在此填写您的意见信息：</p>
+		<form class="well" id="advice_form">
+			<input id="tool_name_f" type="hidden" name="tool_name" value="在线代码格式化">
+			<div class="input-prepend">
+			<span class="add-on">Email邮箱:</span><input class="input-xlarge" type="text" id="advice_email" name="email" placeholder="在此输入您的Email" onblur="javascript:verifyEmail();" title="Email邮箱"><span style="color:#A00" id="email_error"> (必填) </span>
+			</div>
+			
+            <label class="textarea">您的建议和意见：<br><textarea name="content" id="advice_content" style="width:480px;height:150px" placeholder="在此填写对  在线代码格式化 的意见和建议"></textarea></label>
+			<label class="input">验证码：
+			<img style="margin-bottom:9px;" src="./在线代码格式化_files/captcha" id="captcha_code" height="30px" width="80px" onclick="this.src = &#39;/action/jsbin/captcha?&#39;+new Date().getTime();">
+			<input type="text" id="captcha_input" onkeyup="document.getElementById(&#39;verifyCode&#39;).value=this.value;" style="height:20px;width:30px;">
+			<input id="verifyCode" name="verifyCode" type="hidden"></label>
+		</form>
+      </div>
+      <div class="modal-footer">
+        <a href="https://tool.oschina.net/codeformat/json#" class="btn" data-dismiss="modal">取消</a>
+        <a href="https://tool.oschina.net/codeformat/json#" class="btn btn-primary" id="advice_submit" disabled="disabled">提交建议</a>
+      </div>
+    </div>
+<script>
+function verifyEmail(){
+	if(null == $("#advice_email").val().match(/^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/)){
+		$("#email_error").html(" email输入错误 ");
+		$("#advice_email").focus();
+	}
+	else{
+		$("#email_error").html("<i class='icon-ok'></i>");
+		$("#advice_submit").removeAttr("disabled");
+	}
+}
+$(document).ready(function (){
+	$("#advice_submit").click(function (){
+		$.post("/action/advice/add_advice",
+		{ tool_name : $("#tool_name_f").val() , email: $("#advice_email").val(), content: $("#advice_content").val() ,verifyCode: $("#verifyCode").val()},
+		function (result){
+			var m=eval('(' + result + ')');
+			if("ok"==m.msg){
+				alert("谢谢您的建议，我们会参考您的建议使ostools变得更好！");
+				$('#advice').modal('hide');
+				$("#captcha_code").attr("src",'/action/jsbin/captcha?'+new Date().getTime());
+			}
+			else{
+				alert(m.msg);
+			}
+		});
+	});
+});
+</script>
+
+<script>
+    (function(){
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https'){
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else{
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?a411c4d1664dd70048ee98afe7b28f0b";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+<script>
+	window.goatcounter = {
+		path: function(p) { return location.host + p }
+	}
+</script>
+<script data-goatcounter="https://visit.oschina.net/count" async="" src="./在线代码格式化_files/count.js"></script>
+
+
+
+</body></html>
