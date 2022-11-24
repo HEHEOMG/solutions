@@ -1,25 +1,28 @@
-# ¶¨ÒåÁ½¸ö¾Ö²¿±äÁ¿£¬ÓÃÓÚ¶¨ÒåopenjdkµÄ°æ±¾µÈ
+# ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú¶ï¿½ï¿½ï¿½openjdkï¿½Ä°æ±¾ï¿½ï¿½
 ARG OPENJDK_VERSION=8 
 ARG DEBIAN_RELEASE=""
 FROM openjdk:${OPENJDK_VERSION}-jre-slim${DEBIAN_RELEASE}
 
-# ¶¨Òåspark°æ±¾ºÍÀàËÆÓÚpyspark´øºó×ºµÄpip°ü
+# ï¿½ï¿½ï¿½ï¿½sparkï¿½æ±¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½pysparkï¿½ï¿½ï¿½ï¿½×ºï¿½ï¿½pipï¿½ï¿½
 ARG SPARK_VERSION=3.0.0
 ARG SPARK_EXTRAS=
 
-# ÐÞ¸ÄÕâ¸ö¾µÏñµÄÔªÊý¾Ý£¬¼´Ôö¼ÓÒ»µãÃèÊö
+# ï¿½Þ¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ôªï¿½ï¿½ï¿½Ý£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 LABEL org.opencontainers.image.title="Apache PySpark $SPARK_VERSION" \
       org.opencontainers.image.version=$SPARK_VERSION
 
-# ¶¨Òå»·¾³±äÁ¿£¬Ôö¼ÓÒ»¸öËÑË÷Â·¾¶ºÍpython»·¾³µØÖ·
+# ï¿½ï¿½ï¿½å»·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½ï¿½ï¿½pythonï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö·
 ENV PATH="/opt/miniconda3/bin:${PATH}"
 ENV PYSPARK_PYTHON="/opt/miniconda3/bin/python"
 
 # 
 RUN set -ex && \
+    sed -i 's/deb.debian.org/mirrors.ustc.edu.cn/g' /etc/apt/sources.list && \
+    sed -i 's|security.debian.org/debian-security|mirrors.ustc.edu.cn/debian-security|g' /etc/apt/sources.list && \
+    apt-get clean && \
     apt-get update && \
     apt-get install -y curl bzip2 --no-install-recommends && \
-    curl -s -L --url "https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh" --output /tmp/miniconda.sh && \
+    curl -s -L --url "https://mirrors.tuna.tsinghua.edu.cn/anaconda/miniconda/Miniconda3-py37_4.12.0-Linux-x86_64.sh" --output /tmp/miniconda.sh && \
     bash /tmp/miniconda.sh -b -f -p "/opt/miniconda3" && \
     rm /tmp/miniconda.sh && \
     conda config --set auto_update_conda true && \
@@ -28,7 +31,10 @@ RUN set -ex && \
     conda install pip && \
     conda clean -tipy && \
     echo "PATH=/opt/miniconda3/bin:\${PATH}" > /etc/profile.d/miniconda.sh && \
-    pip install --no-cache pyspark[$SPARK_EXTRAS]==${SPARK_VERSION} -i https://pypi.tuna.tsinghua.edu.cn/simple && \ 
+    pip config set global.index-url https://mirrors.aliyun.com/pypi/simple && \
+    pip config set install.trusted-host mirrors.aliyun.com && \
+    #pip install --no-cache pyspark[$SPARK_EXTRAS]==${SPARK_VERSION} && \ 
+    conda install pyspark==${SPARK_VERSION} && \
     echo "export SPARK_HOME=$(python /opt/miniconda3/bin/find_spark_home.py)" > /etc/profile.d/spark.sh && \
     curl -s -L --url "https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk/1.7.4/aws-java-sdk-1.7.4.jar" --output $SPARK_HOME/jars/aws-java-sdk-1.7.4.jar && \
     curl -s -L --url "https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/2.7.3/hadoop-aws-2.7.3.jar" --output $SPARK_HOME/jars/hadoop-aws-2.7.2jar && \
