@@ -5,7 +5,6 @@ FROM openjdk:${OPENJDK_VERSION}-jre-slim${DEBIAN_RELEASE}
 
 # ����spark�汾��������pyspark����׺��pip��
 ARG SPARK_VERSION=3.0.0
-ARG SPARK_EXTRAS=
 
 # �޸���������Ԫ���ݣ�������һ������
 LABEL org.opencontainers.image.title="Apache PySpark $SPARK_VERSION" \
@@ -14,6 +13,7 @@ LABEL org.opencontainers.image.title="Apache PySpark $SPARK_VERSION" \
 # ���廷������������һ������·����python������ַ
 ENV PATH="/opt/miniconda3/bin:${PATH}"
 ENV PYSPARK_PYTHON="/opt/miniconda3/bin/python"
+ENV SPARK_HOME="/opt/miniconda3/lib/python3.7/site-packages/pyspark"
 
 # 
 RUN set -ex && \
@@ -33,14 +33,14 @@ RUN set -ex && \
     echo "PATH=/opt/miniconda3/bin:\${PATH}" > /etc/profile.d/miniconda.sh && \
     pip config set global.index-url https://mirrors.aliyun.com/pypi/simple && \
     pip config set install.trusted-host mirrors.aliyun.com && \
-    #pip install --no-cache pyspark[$SPARK_EXTRAS]==${SPARK_VERSION} && \ 
-    conda install pyspark==${SPARK_VERSION} && \
+    pip install --no-cache pyspark==${SPARK_VERSION} && \ 
+    #conda install pyspark==${SPARK_VERSION} && \
     echo "export SPARK_HOME=$(python /opt/miniconda3/bin/find_spark_home.py)" > /etc/profile.d/spark.sh && \
-    curl -s -L --url "https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk/1.7.4/aws-java-sdk-1.7.4.jar" --output $SPARK_HOME/jars/aws-java-sdk-1.7.4.jar && \
-    curl -s -L --url "https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/2.7.3/hadoop-aws-2.7.3.jar" --output $SPARK_HOME/jars/hadoop-aws-2.7.2jar && \
-    curl -s -L --url "https://repo1.maven.org/maven2/io/delta/delta-core_2.12/1.0.0/delta-core_2.12-1.0.0.jar" --output $SPARK_HOME/jars/delta-core_2.12-1.0.0.jar && \
-    mkdir -p $SPARK_HOME/conf && \
-    echo "spark.hadoop.fs.s3.impl=org.apache.hadoop.fs.s3a.S3AFileSystem" >> $SPARK_HOME/conf/spark-defaults.conf && \ 
+    curl -s -L --url "https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk/1.7.4/aws-java-sdk-1.7.4.jar" --output ${SPARK_HOME}/jars/aws-java-sdk-1.7.4.jar && \
+    curl -s -L --url "https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/2.7.3/hadoop-aws-2.7.3.jar" --output ${SPARK_HOME}/jars/hadoop-aws-2.7.2jar && \
+    curl -s -L --url "https://repo1.maven.org/maven2/io/delta/delta-core_2.12/1.0.0/delta-core_2.12-1.0.0.jar" --output ${SPARK_HOME}/jars/delta-core_2.12-1.0.0.jar && \
+    mkdir -p ${SPARK_HOME}/conf && \
+    echo "spark.hadoop.fs.s3.impl=org.apache.hadoop.fs.s3a.S3AFileSystem" >> ${SPARK_HOME}/conf/spark-defaults.conf && \ 
     apt-get remove -y curl bzip2 && \ 
     apt-get autoremove -y && \
     apt-get clean 
