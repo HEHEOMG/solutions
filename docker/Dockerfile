@@ -15,9 +15,10 @@
 # ==================================================================
 
 ARG SPARK_VERSION=3.0.0
-ARG SPARK_HOME="/usr/lib/python3.8/site-packages/pyspark"
 
 ENV LANG C.UTF-8
+ENV PATH="/opt/miniconda3/bin:${PATH}"
+ENV SPARK_HOME="/opt/miniconda3/lib/python3.8/site-packages/pyspark"
 
 FROM nvidia/cuda:11.3.1-cudnn8-devel-ubuntu20.04
 
@@ -49,6 +50,7 @@ RUN set -ex && \
         libssl-dev \
         curl \
         unzip \
+        bzip2 \
         unrar \
         cmake \
         openjdk-8-jre-headless \
@@ -74,6 +76,7 @@ RUN set -ex && \
         scikit-image \
         scikit-learn \
         matplotlib \
+        seaborn \
         Cython \
         tqdm \
         pyspark==${SPARK_VERSION} \
@@ -85,6 +88,39 @@ RUN set -ex && \
     mkdir -p ${SPARK_HOME}/conf && \
     echo "spark.hadoop.fs.s3.impl=org.apache.hadoop.fs.s3a.S3AFileSystem" >> ${SPARK_HOME}/conf/spark-defaults.conf 
     && \ 
+# ==================================================================
+# jupyter
+# ------------------------------------------------------------------
+    $PIP_INSTALL \
+        jupyter \
+        && \
+# ==================================================================
+# paddle
+# ------------------------------------------------------------------
+    $PIP_INSTALL \
+        paddlepaddle-gpu \
+        && \
+# ==================================================================
+# pytorch
+# ------------------------------------------------------------------
+    $PIP_INSTALL \
+        future \
+        numpy \
+        protobuf \
+        enum34 \
+        pyyaml \
+        typing \
+        && \
+    $PIP_INSTALL \
+        --pre torch torchvision torchaudio -f \
+        https://download.pytorch.org/whl/nightly/cu113/torch_nightly.html \
+        && \
+# ==================================================================
+# jupyterlab
+# ------------------------------------------------------------------
+    $PIP_INSTALL \
+        jupyterlab \
+        && \
 # ==================================================================
 # config & cleanup
 # ------------------------------------------------------------------
